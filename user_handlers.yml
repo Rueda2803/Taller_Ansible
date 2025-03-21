@@ -1,0 +1,18 @@
+---
+- name: Configure important user consistently
+  hosts: all
+  tasks:
+    - name: Newbie exists with UID 4000
+      user:
+        name: newbie
+        uid: 4000
+        state: present
+      notify:
+        name: Delete user
+
+  handlers:
+    - name: Delete user
+      user:
+        name: newbie
+        state: absent
+      
