@@ -8,12 +8,10 @@
         uid: 4000
         state: present
       notify:
-        name: Delete user
+        name: User
 
   handlers:
-    - name: Delete user
-      user:
-        name: newbie
-        state: absent
-        remove: yes
+    - name: User
+      debug:
+        msg: Usuario creado
       
