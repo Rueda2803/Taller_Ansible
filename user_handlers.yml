@@ -15,4 +15,5 @@
       user:
         name: newbie
         state: absent
+        remove: yes
       
