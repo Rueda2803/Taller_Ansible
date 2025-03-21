@@ -8,10 +8,10 @@
         uid: 4000
         state: present
       notify:
-        name: User
+        - User add
 
   handlers:
-    - name: User
+    - name: User add
       debug:
         msg: Usuario creado
       
