@@ -1,0 +1,66 @@
+Ansible soporta variables que se pueden usar para almacenar valores que, luego, se pueden volver a usar en todos los archivos de un proyecto Ansible. Esto puede simplificar la creación y el mantenimiento de un proyecto, así como reducir la cantidad de errores.
+
+Las variables brindan una forma conveniente de gestionar los valores dinámicos para un entorno dado en su proyecto Ansible. Los ejemplos de valores que pueden contener las variables incluyen:
+
+-Usuarios para crear
+-Paquetes para instalar
+-Servicios para reiniciar
+-Archivos para eliminar
+-Colección de archivos para recuperar de Internet
+
+Manera correcta de escribir las variables:
+web_server
+file1
+
+- hosts: all
+  vars:
+    user: joe
+    home: /home/joe
+  vars_files:
+    - vars/users.yml
+
+
+tasks:
+  # This line will read: Creates the user joe
+  - name: Creates the user {{ user }}
+    user:
+      # This line will create the user named Joe
+      name: "{{ user }}"
+
+
+user1_first_name: Bob
+user1_last_name: Jones
+user1_home_dir: /users/bjones
+user2_first_name: Anne
+user2_last_name: Cook
+user2_home_dir: /users/acook
+
+users:
+  bjones:
+    first_name: Bob
+    last_name: Jones
+    home_dir: /users/bjones
+  acook:
+    first_name: Anne
+    last_name: Cook
+    home_dir: /users/acook
+
+# Returns 'Bob'
+users.bjones.first_name
+
+# Returns '/users/acook'
+users.acook.home_dir
+
+Captura de salida de comando con variables registradas
+---
+- name: Installs a package and prints the result
+  hosts: all
+  tasks:
+    - name: Install the package
+      ansible.builtin.dnf:
+        name: httpd
+        state: installed
+      register: install_result
+
+    - debug:
+        var: install_result
